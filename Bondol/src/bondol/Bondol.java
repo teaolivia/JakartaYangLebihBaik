@@ -49,7 +49,9 @@ public class Bondol {
         pt = tp.posTagSentence(lemma);
         System.out.println(pt);        
         // implement POS Tagging
+        
         // pick adjectives
+        
         // assign rating
     }
     
