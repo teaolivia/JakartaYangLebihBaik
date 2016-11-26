@@ -37,10 +37,12 @@ public class TextProcessing {
     }
     
     public static String lemmatizeSentence(String sentence) {
+        // formalization
         IndonesianSentenceFormalization formalizer = new IndonesianSentenceFormalization();
-        return formalizer.normalizeSentence(sentence);
+        sentence = formalizer.normalizeSentence(sentence);
+        // stopwords removal
         formalizer.initStopword();
-        System.out.println(formalizer.deleteStopword(sentence));
+        return formalizer.deleteStopword(sentence);
     }
     
     public static ArrayList tokenizeSentence(String sentence) {
