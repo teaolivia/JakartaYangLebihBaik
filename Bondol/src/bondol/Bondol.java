@@ -14,13 +14,14 @@ import java.util.ArrayList;
  */
 
 public class Bondol {
-    protected static String kalimat = "Aku ditilang karena ketahuan enggak memiliki SIM bro";
+
     protected static String stem;
     protected static String lemma;
     protected static ArrayList<String[]> pt;
     protected static ArrayList token;
     protected static int index;
     protected static String posts;
+    protected static String twit;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -30,11 +31,12 @@ public class Bondol {
         Tweets tw = new Tweets();
         ArrayList<String> tweets;
         tweets = tw.getTweets(posts);
+        twit = tweets.get(index);
 
         TextProcessing tp = new TextProcessing();
         
         // lemmatize words
-        lemma = TextProcessing.lemmatizeSentence(kalimat);
+        lemma = TextProcessing.lemmatizeSentence(twit);
         System.out.println(lemma);
         
         // tokenize words
