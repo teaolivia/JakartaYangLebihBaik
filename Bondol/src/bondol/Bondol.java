@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class Bondol {
-    protected static String kalimat = "Aku ditilang karena ketahuan enggak memiliki SIM  bro";
+    protected static String kalimat = "Aku ditilang karena ketahuan enggak memiliki SIM bro";
     protected static String stem;
     protected static String lemma;
     protected static ArrayList<String[]> pt;
