@@ -6,6 +6,7 @@
 package bondol;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,6 +14,12 @@ import java.io.IOException;
  */
 
 public class Bondol {
+    protected static String kalimat = "Aku ditilang karena ketahuan enggak memiliki SIM  bro";
+    protected static String stem;
+    protected static String lemma;
+    protected static ArrayList<String[]> pt;
+    protected static ArrayList token;
+    protected static int index;
     protected static String posts;
     /**
      * @param args the command line arguments
@@ -20,9 +27,25 @@ public class Bondol {
      */
     public static void main(String[] args) throws IOException {
         // get Twitter posts
-        Tweets.getTweets(posts);
-        // tokenize words
+        Tweets tw = new Tweets();
+        ArrayList<String> tweets;
+        tweets = tw.getTweets(posts);
+
+        TextProcessing tp = new TextProcessing();
+        
         // lemmatize words
+        lemma = TextProcessing.lemmatizeSentence(kalimat);
+        System.out.println(lemma);
+        
+        // tokenize words
+        token = TextProcessing.tokenizeSentence(lemma);
+        System.out.println(token);
+        
+        
+        stem = TextProcessing.stemWord(lemma);
+        System.out.println(stem); 
+        pt = tp.posTagSentence(lemma);
+        System.out.println(pt);        
         // implement POS Tagging
         // pick adjectives
         // assign rating

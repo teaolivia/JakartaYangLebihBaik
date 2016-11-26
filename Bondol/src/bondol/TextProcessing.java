@@ -15,17 +15,24 @@ import java.util.ArrayList;
  * @author atia
  */
 public class TextProcessing {
-    protected static String tw;
+
+    protected ArrayList<String[]> posTag;
     /**
      *
      * @param args
      */
     
-    public static ArrayList<String[]> posTagSentence(String sentence) {
-        ArrayList<String[]> posTag = IndonesianPOSTagger.doPOSTag(sentence);
-        for(int i = 0; i < posTag.size(); i++){
-            System.out.println(posTag.get(i)[0] + " - " + posTag.get(i)[1]);
-        }
+    /**
+     *
+     * @param sentence
+     * @return 
+     */
+    public ArrayList<String[]> posTagSentence(String sentence) {
+        IndonesianPOSTagger ipt = new IndonesianPOSTagger();
+        posTag = ipt.doPOSTag(sentence);
+        posTag.stream().forEach((posTag1) -> {
+            System.out.println(posTag1[0] + " - " + posTag1[1]);
+        });
         return posTag;
     }
     

@@ -26,12 +26,12 @@ import org.json.simple.JSONValue;
  * @author atia
  */
 public class Tweets {
-    private static final String consumerKey = "a6V8ZsVRNvgbeOHUiCDFCMUCT";
-    private static final String consumerSecret = "n5lbNQuioFk1zj9qRU01INzB9jEKS9BJggSzTqOj1G9gCG0Dav";
-    private static final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json?";
-    private static String bearerToken = "";
+    private final String consumerKey = "a6V8ZsVRNvgbeOHUiCDFCMUCT";
+    private final String consumerSecret = "n5lbNQuioFk1zj9qRU01INzB9jEKS9BJggSzTqOj1G9gCG0Dav";
+    private final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json?";
+    private String bearerToken = "";
     
-    private static String encodeKeys(String consumerKey, String consumerSecret) {
+    private String encodeKeys(String consumerKey, String consumerSecret) {
         try {
             String encodedConsumerKey = URLEncoder.encode(consumerKey, "UTF-8");
             String encodedConsumerSecret = URLEncoder.encode(consumerSecret, "UTF-8");
@@ -44,7 +44,7 @@ public class Tweets {
         }
     }
     
-    private static String requestBearerToken(String endpointUrl) throws IOException {
+    private String requestBearerToken(String endpointUrl) throws IOException {
         HttpsURLConnection conn = null;
         String encodedCredentials = encodeKeys(consumerKey, consumerSecret);
         
@@ -81,19 +81,19 @@ public class Tweets {
         }
     }
     
-    private static boolean writeRequest(HttpsURLConnection conn, String body) {
+    private boolean writeRequest(HttpsURLConnection conn, String body) {
         try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            bw.write(body);
-            bw.flush();
-            bw.close();
+            try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()))) {
+                bw.write(body);
+                bw.flush();
+            }
             return true;
         } catch (IOException e) {
             return false;
         }
     }
     
-    private static String readResponse(HttpsURLConnection conn) {
+    private String readResponse(HttpsURLConnection conn) {
         try {
             StringBuilder sb = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -108,8 +108,8 @@ public class Tweets {
         }
     }
     
-    private static ArrayList<String> fetchTweets(String endpointUrl) throws IOException {
-        ArrayList<String> tweets = new ArrayList<String>();
+    private ArrayList<String> fetchTweets(String endpointUrl) throws IOException {
+        ArrayList<String> tweets = new ArrayList<>();
         HttpsURLConnection conn = null;
         
         try {
@@ -126,13 +126,12 @@ public class Tweets {
             JSONObject obj = (JSONObject)JSONValue.parse(readResponse(conn));
             if (obj != null) {
                 JSONArray statuses = (JSONArray)obj.get("statuses");
-                for (Object status : statuses) {
-                    String tweet = ((JSONObject) status).get("text").toString();
-                    tweets.add(tweet);
-                }
+                statuses.stream().map((status) -> ((JSONObject) status).get("text").toString()).forEach((Object tweet) -> {
+                    tweets.add((String) tweet);
+                });
                 return tweets;
             }
-            return new ArrayList<String>();
+            return new ArrayList<>();
         } catch (MalformedURLException e) {
             throw new IOException("Invalid endpoint URL", e);
         } finally {
@@ -142,7 +141,7 @@ public class Tweets {
         }
     }
     
-    public static ArrayList<String> getTweets(String urlEncodedQuery) throws IOException {
+    public ArrayList<String> getTweets(String urlEncodedQuery) throws IOException {
         bearerToken = requestBearerToken("https://api.twitter.com/oauth2/token"); 
         String endpoint = searchUrl + urlEncodedQuery;
         return fetchTweets(endpoint);
