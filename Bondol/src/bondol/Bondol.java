@@ -28,10 +28,17 @@ public class Bondol {
      */
     public static void main(String[] args) throws IOException {
         // get Twitter posts
-        Tweets tw = new Tweets();
-        ArrayList<String> tweets;
-        tweets = tw.getTweets(posts);
-        twit = tweets.get(index);
+//        Tweets tw = new Tweets();
+//        ArrayList<String> tweets;
+//        tweets = tw.getTweets(posts);
+//        twit = tweets.get(index);
+        
+        Tweets.bearerToken = Tweets.requestBearerToken("https://api.twitter.com/oauth2/token"); 
+        String query = "q=ahok+exclude%3Alinks+-filter:media+exclude%3Areplies+exclude%3Aretweets&count=25&lang=id";
+        String endpoint = Tweets.searchUrl+query;
+        for (int i=0; i<25; i++) {
+            System.out.println(Tweets.fetchTweets(endpoint).get(i) + "\n");
+        }
 
         TextProcessing tp = new TextProcessing();
         
