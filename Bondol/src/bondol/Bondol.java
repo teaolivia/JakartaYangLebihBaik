@@ -5,33 +5,27 @@
  */
 package bondol;
 
+import java.io.IOException;
+
 /**
  *
  * @author theaolivia
  */
 
-
-import twitter4j.*;
-import twitter4j.Query;
-
-
 public class Bondol {
-
+    protected static String posts;
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
-    public static void main(String[] args) {
-        // make requests to Twitter
-        Twitter twitter = TwitterFactory.getSingleton();
-        
-        Query query;
-        query = new Query("source:twitter4j yusukey");
-        
-        QueryResult result = twitter.search(query);
-        
-        result.getTweets().stream().forEach((status) -> {
-            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-        });
+    public static void main(String[] args) throws IOException {
+        // get Twitter posts
+        Tweets.getTweets(posts);
+        // tokenize words
+        // lemmatize words
+        // implement POS Tagging
+        // pick adjectives
+        // assign rating
     }
     
 }

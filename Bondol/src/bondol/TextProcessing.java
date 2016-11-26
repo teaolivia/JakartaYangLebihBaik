@@ -15,6 +15,11 @@ import java.util.ArrayList;
  * @author atia
  */
 public class TextProcessing {
+
+    /**
+     *
+     * @param args
+     */
     public static void main (String [] args) {
         System.out.println("Demo NLP Tools utk bahasa Indonesia");
         IndonesianSentenceFormalization formalizer = new IndonesianSentenceFormalization();
@@ -41,17 +46,17 @@ public class TextProcessing {
         sentence = "Pak SBY bertemu dengan Bu Mega .";
         
         /* MASIH ERROR */
-//        IndonesianPOSTagger ipt = new IndonesianPOSTagger();
-//        ArrayList posTag = ipt.doPOSTag(sentence);
-//        for(int i = 0; i < posTag.size(); i++){
-//            System.out.println(posTag.get(i) + " - " + posTag.get(i));
-//        }
-//        
+        IndonesianPOSTagger ipt = new IndonesianPOSTagger();
+        ArrayList posTag = ipt.doPOSTag(sentence);
+        posTag.stream().forEach((posTag1) -> {
+            System.out.println(posTag1 + " - " + posTag1);
+        });
+        
         System.out.println("*************************");
         IndonesianSentenceTokenizer ist = new IndonesianSentenceTokenizer();
         ArrayList tokens = ist.tokenizeSentenceWithCompositeWords("Alexander Graham Bell dilahirkan di Edinburgh , Skotlandia , Britania Raya pada 3 Maret 1847 .");
-        for (int i=0; i<tokens.size(); i++) {
-            System.out.println(tokens.get(i));
-        }
+        tokens.stream().forEach((token) -> {
+            System.out.println(token);
+        });
     }
 }
