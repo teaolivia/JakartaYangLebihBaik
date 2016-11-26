@@ -20,15 +20,31 @@ public class TextProcessing {
      *
      * @param args
      */
-    public static void main (String [] args) {
-        System.out.println("Demo NLP Tools utk bahasa Indonesia");
+    
+    public static ArrayList<String[]> posTagSentence(String sentence) {
+        ArrayList<String[]> posTag = IndonesianPOSTagger.doPOSTag(sentence);
+        for(int i = 0; i < posTag.size(); i++){
+            System.out.println(posTag.get(i)[0] + " - " + posTag.get(i)[1]);
+        }
+        return posTag;
+    }
+    
+    public static String lemmatizeSentence(String sentence) {
         IndonesianSentenceFormalization formalizer = new IndonesianSentenceFormalization();
-        System.out.println("*************************");
-        System.out.println("Formalisasi Kata");
-        String sentence = "kata2nya 4ku donk loecoe bangedh gt .";
-        System.out.println(sentence);
-        System.out.println(formalizer.normalizeSentence(sentence));
+        return formalizer.normalizeSentence(sentence);
+    }
+    
+    public static ArrayList tokenizeSentence(String sentence) {
+        IndonesianSentenceTokenizer ist = new IndonesianSentenceTokenizer();
+        ArrayList tokens = ist.tokenizeSentence(sentence);
+        return tokens;
+    }
+    
+    public static String stemWord(String word) {
+        IndonesianStemmer stemmer = new IndonesianStemmer();
+        return stemmer.stem(word);
         
+        /*
         System.out.println("*************************");
         System.out.println("Indonesian STEMMER");
         IndonesianStemmer stemmer = new IndonesianStemmer();
@@ -41,22 +57,6 @@ public class TextProcessing {
         System.out.println("Particle Suffix: " + stemmer.particlesuffix);
         System.out.println("Possessive Pronoun Suffix : " + stemmer.possessivepronounsuffix);
         System.out.println("Derivational Suffix : " + stemmer.derivationalsuffix);
-        
-        System.out.println("*************************");
-        sentence = "Pak SBY bertemu dengan Bu Mega .";
-        
-        /* MASIH ERROR */
-        IndonesianPOSTagger ipt = new IndonesianPOSTagger();
-        ArrayList posTag = ipt.doPOSTag(sentence);
-        posTag.stream().forEach((posTag1) -> {
-            System.out.println(posTag1 + " - " + posTag1);
-        });
-        
-        System.out.println("*************************");
-        IndonesianSentenceTokenizer ist = new IndonesianSentenceTokenizer();
-        ArrayList tokens = ist.tokenizeSentenceWithCompositeWords("Alexander Graham Bell dilahirkan di Edinburgh , Skotlandia , Britania Raya pada 3 Maret 1847 .");
-        tokens.stream().forEach((token) -> {
-            System.out.println(token);
-        });
+        */
     }
 }
