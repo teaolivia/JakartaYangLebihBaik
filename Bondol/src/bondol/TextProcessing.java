@@ -39,6 +39,8 @@ public class TextProcessing {
     public static String lemmatizeSentence(String sentence) {
         IndonesianSentenceFormalization formalizer = new IndonesianSentenceFormalization();
         return formalizer.normalizeSentence(sentence);
+        formalizer.initStopword();
+        System.out.println(formalizer.deleteStopword(sentence));
     }
     
     public static ArrayList tokenizeSentence(String sentence) {
