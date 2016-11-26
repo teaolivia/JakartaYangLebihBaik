@@ -26,12 +26,12 @@ import org.json.simple.JSONValue;
  * @author atia
  */
 public class Tweets {
-    private final String consumerKey = "a6V8ZsVRNvgbeOHUiCDFCMUCT";
-    private final String consumerSecret = "n5lbNQuioFk1zj9qRU01INzB9jEKS9BJggSzTqOj1G9gCG0Dav";
-    private final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json?";
-    private String bearerToken = "";
+    private static final String consumerKey = "a6V8ZsVRNvgbeOHUiCDFCMUCT";
+    private static final String consumerSecret = "n5lbNQuioFk1zj9qRU01INzB9jEKS9BJggSzTqOj1G9gCG0Dav";
+    public static final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json?";
+    public static String bearerToken = "";
     
-    private String encodeKeys(String consumerKey, String consumerSecret) {
+    private static String encodeKeys(String consumerKey, String consumerSecret) {
         try {
             String encodedConsumerKey = URLEncoder.encode(consumerKey, "UTF-8");
             String encodedConsumerSecret = URLEncoder.encode(consumerSecret, "UTF-8");
@@ -44,7 +44,7 @@ public class Tweets {
         }
     }
     
-    private String requestBearerToken(String endpointUrl) throws IOException {
+    public static String requestBearerToken(String endpointUrl) throws IOException {
         HttpsURLConnection conn = null;
         String encodedCredentials = encodeKeys(consumerKey, consumerSecret);
         
@@ -81,7 +81,7 @@ public class Tweets {
         }
     }
     
-    private boolean writeRequest(HttpsURLConnection conn, String body) {
+    private static boolean writeRequest(HttpsURLConnection conn, String body) {
         try {
             try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()))) {
                 bw.write(body);
@@ -93,7 +93,7 @@ public class Tweets {
         }
     }
     
-    private String readResponse(HttpsURLConnection conn) {
+    private static String readResponse(HttpsURLConnection conn) {
         try {
             StringBuilder sb = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -108,7 +108,7 @@ public class Tweets {
         }
     }
     
-    private ArrayList<String> fetchTweets(String endpointUrl) throws IOException {
+    public static ArrayList<String> fetchTweets(String endpointUrl) throws IOException {
         ArrayList<String> tweets = new ArrayList<>();
         HttpsURLConnection conn = null;
         
