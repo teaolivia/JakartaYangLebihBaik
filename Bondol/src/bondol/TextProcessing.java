@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author atia
  */
 public class TextProcessing {
-
+    protected static String tw;
     /**
      *
      * @param args
