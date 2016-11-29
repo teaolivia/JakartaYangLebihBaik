@@ -5,6 +5,7 @@
  */
 package bondol;
 
+import IndonesianNLP.IndonesianNETagger;
 import IndonesianNLP.IndonesianPOSTagger;
 import IndonesianNLP.IndonesianSentenceFormalization;
 import IndonesianNLP.IndonesianStemmer;
@@ -70,4 +71,14 @@ public class TextProcessing {
         System.out.println("Derivational Suffix : " + stemmer.derivationalsuffix);
         */
     }
+    
+    public static String NETagSentence(String sentence) {
+        IndonesianNETagger inner = new IndonesianNETagger();
+        inner.NETagFile("inputfile","outputfile"); 
+        ArrayList<String[]> NETag = inner.NETagLine(sentence); 
+        NETag.stream().forEach((NETag1) -> {
+            System.out.println(NETag1[0] + " - " + NETag1[2]);
+        });
+        return sentence;
+    }    
 }

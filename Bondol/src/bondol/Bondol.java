@@ -6,7 +6,10 @@
 package bondol;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -22,6 +25,7 @@ public class Bondol {
     protected static int index;
     protected static String posts;
     protected static String twit;
+    protected static PrintWriter out;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -38,6 +42,11 @@ public class Bondol {
         String endpoint = Tweets.searchUrl+query;
         for (int i=0; i<25; i++) {
             System.out.println(Tweets.fetchTweets(endpoint).get(i) + "\n");
+            out = new PrintWriter(new FileWriter("/Users/theaolivia/GitHub/JakartaYangLebihBaik/Bondol/resource/input/input_ahok.txt", true));
+            //out.println((i+1)+")http://twitter.com/"+Tweets.getString("from_user")+" at "+Tweets.getString("created_at"));
+            out.println(Tweets.fetchTweets(endpoint).get(i) + "\n");
+
+            out.close();
         }
 
         TextProcessing tp = new TextProcessing();
