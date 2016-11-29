@@ -40,7 +40,7 @@ public class Bondol {
         Tweets.bearerToken = Tweets.requestBearerToken("https://api.twitter.com/oauth2/token"); 
         String query = "q=ahok+exclude%3Alinks+-filter:media+exclude%3Areplies+exclude%3Aretweets&count=25&lang=id";
         String endpoint = Tweets.searchUrl+query;
-        for (int i=0; i<25; i++) {
+        for (int i=0; i<; i++) {
             System.out.println(Tweets.fetchTweets(endpoint).get(i) + "\n");
             out = new PrintWriter(new FileWriter("/Users/theaolivia/GitHub/JakartaYangLebihBaik/Bondol/resource/input/input_ahok.txt", true));
             //out.println((i+1)+")http://twitter.com/"+Tweets.getString("from_user")+" at "+Tweets.getString("created_at"));
