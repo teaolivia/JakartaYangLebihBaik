@@ -10,15 +10,25 @@ import IndonesianNLP.IndonesianPOSTagger;
 import IndonesianNLP.IndonesianSentenceFormalization;
 import IndonesianNLP.IndonesianStemmer;
 import IndonesianNLP.IndonesianSentenceTokenizer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.net.ssl.HttpsURLConnection;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 /**
  *
  * @author atia
  */
 public class TextProcessing {
-
+    private static final String kategloUrl = "http://kateglo.com/api.php?format=json&phrase=";
     protected ArrayList<String[]> posTag;
     /**
      *
@@ -30,14 +40,6 @@ public class TextProcessing {
      * @param sentence
      * @return 
      */
-    public ArrayList<String[]> posTagSentence(String sentence) {
-        IndonesianPOSTagger ipt = new IndonesianPOSTagger();
-        posTag = ipt.doPOSTag(sentence);
-        posTag.stream().forEach((posTag1) -> {
-            System.out.println(posTag1[0] + " - " + posTag1[1]);
-        });
-        return posTag;
-    }
     
     public static String lemmatizeSentence(String sentence) {
         // formalization
@@ -93,5 +95,38 @@ public class TextProcessing {
             m = p.matcher(sentence);
         }
         return sentence;
+    }
+    
+    public static String getPOSTag(String token) throws IOException {        
+        HttpURLConnection conn = null;
+        try {
+            String endpoint = kategloUrl + token;
+            URL url = new URL(endpoint);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "JakartaYangLebihBaik");
+            JSONObject obj = (JSONObject)JSONValue.parse(readResponse(conn));
+            JSONObject kateglo = (JSONObject) obj.get("kateglo");
+            return kateglo.get("lex_class").toString();
+        } catch (MalformedURLException e) {
+            throw new IOException("Invalid endpoint URL", e);
+        } finally {
+            conn.disconnect();
+        }
+    }
+    
+    private static String readResponse(HttpURLConnection conn) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append(System.getProperty("line.separator"));
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            System.out.println(e);
+            return new String();
+        }
     }
 }

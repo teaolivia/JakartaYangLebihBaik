@@ -62,8 +62,8 @@ public class Bondol {
         
         stem = TextProcessing.stemWord(lemma);
         System.out.println(stem); 
-        pt = tp.posTagSentence(lemma);
-        System.out.println(pt);        
+//        pt = tp.posTagSentence(lemma);
+//        System.out.println(pt);        
         // implement POS Tagging
         
         // pick adjectives
