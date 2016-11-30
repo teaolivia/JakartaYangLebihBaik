@@ -11,6 +11,8 @@ import IndonesianNLP.IndonesianSentenceFormalization;
 import IndonesianNLP.IndonesianStemmer;
 import IndonesianNLP.IndonesianSentenceTokenizer;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  *
  * @author atia
@@ -81,4 +83,15 @@ public class TextProcessing {
         });
         return sentence;
     }    
+    
+    public static String removeHashtags(String sentence) {
+        Pattern p = Pattern.compile("#\\S*");
+        Matcher m = p.matcher(sentence);
+        while (m.find()) {
+            String s = sentence.subSequence(m.start(),m.end()).toString();
+            sentence = sentence.replaceAll(s, "");
+            m = p.matcher(sentence);
+        }
+        return sentence;
+    }
 }
